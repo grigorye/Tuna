@@ -234,17 +234,12 @@ typedef NS_ENUM(NSInteger, EditorType)
         return;
     }
 
-    long long lineNumber = [self currentLineNumberWithEditor:currentSourceCodeEditor] + 1;
+    long long lineNumber = [self currentLineNumberWithEditor:currentSourceCodeEditor];
     DVTTextDocumentLocation *documentLocation = [self documentLocationWithLineNumber:lineNumber];
     IDEFileBreakpoint *breakpoint = [self fileBreakpointAtDocumentLocation:documentLocation];
     [breakpoint.mutableActions addObject:({
         IDELogBreakpointAction *action = [IDELogBreakpointAction new];
-        action.message = [NSString stringWithFormat:@"🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟 %@", selectedText];
-        action;
-    })];
-    [breakpoint.mutableActions addObject:({
-        IDEDebuggerCommandBreakpointAction *action = [IDEDebuggerCommandBreakpointAction new];
-        action.consoleCommand = [@"po " stringByAppendingString:selectedText];
+        action.message = [NSString stringWithFormat:@"🐟 %%B: %@: @%@@", selectedText, selectedText];
         action;
     })];
 }
@@ -263,7 +258,7 @@ typedef NS_ENUM(NSInteger, EditorType)
     IDEFileBreakpoint *breakpoint = [self fileBreakpointAtDocumentLocation:documentLocation];
     [breakpoint.mutableActions addObject:({
         IDELogBreakpointAction *action = [IDELogBreakpointAction new];
-        action.message = @"🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟 backtrace";
+        action.message = @"🐟 %B";
         action;
     })];
     [breakpoint.mutableActions addObject:({
