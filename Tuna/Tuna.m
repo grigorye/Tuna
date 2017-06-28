@@ -239,9 +239,21 @@ typedef NS_ENUM(NSInteger, EditorType)
     IDEFileBreakpoint *breakpoint = [self fileBreakpointAtDocumentLocation:documentLocation];
     [breakpoint.mutableActions addObject:({
         IDELogBreakpointAction *action = [IDELogBreakpointAction new];
-        action.message = [NSString stringWithFormat:@"🐟 %%B: %@: @%@@", selectedText, selectedText];
+        action.message = [NSString stringWithFormat:@"🐟 %%B[%%H] %@: @tunaExpr(%@)@", selectedText, selectedText];
         action;
     })];
+    [breakpoint.mutableActions addObject:({
+        IDELogBreakpointAction *action = [IDELogBreakpointAction new];
+        action.message = [NSString stringWithFormat:@"@tunaDump(%@)@", selectedText];
+        action;
+    })];
+#if 0
+    [breakpoint.mutableActions addObject:({
+        IDEDebuggerCommandBreakpointAction *action = [IDEDebuggerCommandBreakpointAction new];
+        action.consoleCommand = [NSString stringWithFormat:@"p %@", selectedText];
+        action;
+    })];
+#endif
 }
 
 - (void)setBacktraceBreakpoint
